@@ -1,0 +1,2 @@
+SQLAlchemy==2.0.20
+aiogram_dialog==2.0.0rc2
