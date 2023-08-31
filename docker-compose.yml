@@ -6,12 +6,21 @@ services:
         restart: always
         command: python bot.py
         env_file:
-            - ./src/.env
+            - .env
         volumes:
-            - ./src/infrastructure/db/migrations/versions:/app/infrastructure/db/migrations/versions
+            - ./src/clean_architecture_app/infrastructure/db/migrations/versions:/app/infrastructure/db/migrations/versions
         depends_on:
             - db
             - bot_redis
+
+    migration:
+        build: ./
+        restart: on-failure
+        env_file:
+            - .env
+        depends_on:
+            - db
+        command: [ "alembic", "upgrade", "head" ]
 
     bot_redis:
         image: redis:7.0.4-alpine
@@ -25,7 +34,7 @@ services:
         image: postgres:14.5-alpine
         restart: always
         env_file:
-            - ./src/.env
+            - .env
         volumes:
             - db_data:/var/lib/postgresql/data/
 

@@ -19,7 +19,8 @@ ENV HOME=/app
 
 RUN addgroup --system app && adduser --system --group app
 
-COPY src .
+COPY src/clean_architecture_app .
+COPY .env .
 
 RUN chown -R app:app $HOME
 

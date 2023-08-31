@@ -1,6 +1,6 @@
 SQLAlchemy==2.0.20
 aiogram_dialog==2.0.0rc2
-pydantic-settings==2.0.3
 redis==5.0.0
 asyncpg==0.28.0
 alembic==1.11.3
+aiogram~=3.0.0rc2
