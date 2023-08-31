@@ -18,7 +18,7 @@ DEFAULT_STATE_KEY = "example_state"
 
 
 async def user_start(
-        message: Message, ioc: InteractorFactory, dialog_manager: DialogManager
+    message: Message, ioc: InteractorFactory, dialog_manager: DialogManager
 ):
     async with ioc.create_user() as create_user:
         user_id: UserId = await create_user(
@@ -37,7 +37,9 @@ async def user_start(
 
 
 async def ping(_call: CallbackQuery, _widget: Button, dialog_manager: DialogManager):
-    current_state: str = dialog_manager.dialog_data.get(DEFAULT_STATE_KEY) or DEFAULT_STATE
+    current_state: str = (
+        dialog_manager.dialog_data.get(DEFAULT_STATE_KEY) or DEFAULT_STATE
+    )
 
     if current_state == DEFAULT_STATE:
         dialog_manager.dialog_data[DEFAULT_STATE_KEY] = "Понг!"
@@ -48,13 +50,17 @@ async def ping(_call: CallbackQuery, _widget: Button, dialog_manager: DialogMana
 async def window_getter(dialog_manager: DialogManager, **_kwargs):
     return {
         "user_id": dialog_manager.start_data.get("user_id"),
-        f"{DEFAULT_STATE_KEY}": dialog_manager.dialog_data.get(DEFAULT_STATE_KEY) or DEFAULT_STATE,
+        f"{DEFAULT_STATE_KEY}": dialog_manager.dialog_data.get(DEFAULT_STATE_KEY)
+        or DEFAULT_STATE,
     }
 
 
 new_user_dialog = Dialog(
     Window(
-        StaticMedia(path="/app/presentation/telegram/assets/start.gif", type=ContentType.ANIMATION),
+        StaticMedia(
+            path="/app/presentation/telegram/assets/start.gif",
+            type=ContentType.ANIMATION,
+        ),
         Format("👋 Привет! Твой айди:\n> <b>{user_id}</b>"),
         Button(Format("{example_state}"), id="ping", on_click=ping),
         getter=window_getter,
