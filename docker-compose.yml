@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+    bot:
+        build: ./src
+        restart: always
+        command: python bot.py
+        env_file:
+            - ./src/.env
+        volumes:
+            - ./src/infrastructure/db/migrations/versions:/app/infrastructure/db/migrations/versions
+        depends_on:
+            - db
+            - bot_redis
+
+    bot_redis:
+        image: redis:7.0.4-alpine
+        restart: always
+        ports:
+            - "6379:6378"
+        volumes:
+            - redis_data:/data
+
+    db:
+        image: postgres:14.5-alpine
+        restart: always
+        env_file:
+            - ./src/.env
+        volumes:
+            - db_data:/var/lib/postgresql/data/
+
+volumes:
+    db_data:
+    redis_data:

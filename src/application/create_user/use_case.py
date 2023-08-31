@@ -14,16 +14,16 @@ from application.common.interfaces import UnitOfWork
 
 class CreateUser(UseCase[NewUserDTO, UserId]):
     def __init__(
-            self,
-            repository: UserRepository,
-            user_service: UserService,
-            uow: UnitOfWork,
+        self,
+        repository: UserRepository,
+        user_service: UserService,
+        uow: UnitOfWork,
     ):
         self.repository = repository
         self.user_service = user_service
         self.uow = uow
 
-    def __call__(self, data: NewUserDTO) -> UserId:
+    async def __call__(self, data: NewUserDTO) -> UserId:
         user: User = self.user_service.create_user(data.user_id)
 
         user_exists: bool = await self.repository.is_user_exists(data.user_id)

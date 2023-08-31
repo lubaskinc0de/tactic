@@ -19,7 +19,7 @@ class UserRepository(AbstractSQLAlchemyRepository):
         self.session.add(user)
 
     async def is_user_exists(self, user_id: UserId) -> bool:
-        q = select(exists().where(models.User.id == user_id))
+        q = select(exists().where(models.User.user_id == user_id))
 
         res = await self.session.execute(q)
 

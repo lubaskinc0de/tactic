@@ -15,9 +15,11 @@ from presentation.interactor_factory import InteractorFactory
 class IoC(InteractorFactory):
     _session_factory: async_sessionmaker
 
+    def __init__(self, session_factory: async_sessionmaker):
+        self._session_factory = session_factory
+
     @asynccontextmanager
     async def create_user(self) -> CreateUser:
-
         async with self._session_factory() as session:
             uow = SQLAlchemyUoW(session)
             repo = UserRepository(session)
