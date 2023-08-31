@@ -4,7 +4,7 @@ FROM python:3.10.8-slim-buster as compile-image
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-COPY ./requirements.txt .
+COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
 # Final image
@@ -19,7 +19,7 @@ ENV HOME=/app
 
 RUN addgroup --system app && adduser --system --group app
 
-COPY . .
+COPY src .
 
 RUN chown -R app:app $HOME
 
