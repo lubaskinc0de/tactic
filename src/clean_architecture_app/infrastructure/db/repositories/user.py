@@ -1,14 +1,13 @@
 from sqlalchemy import select, exists
 
 from infrastructure.db.repositories.abstract import AbstractSQLAlchemyRepository
+from infrastructure.db import models
 
 from domain.entities.user import User
 from domain.entities.user_id import UserId
 
-from infrastructure.db import models
 
-
-class UserRepository(AbstractSQLAlchemyRepository):
+class UserRepositoryImpl(AbstractSQLAlchemyRepository):
     """Database abstraction layer"""
 
     async def create_user(self, user: User) -> None:

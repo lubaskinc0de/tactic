@@ -7,9 +7,7 @@ from domain.services.user import UserService
 
 from .dto import NewUserDTO
 
-from infrastructure.db.repositories.user import UserRepository
-
-from application.common.interfaces import UnitOfWork
+from application.common.interfaces import UnitOfWork, UserRepository
 
 
 class CreateUser(UseCase[NewUserDTO, UserId]):
