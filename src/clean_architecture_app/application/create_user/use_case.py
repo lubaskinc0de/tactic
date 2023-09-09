@@ -21,15 +21,13 @@ class CreateUser(UseCase[NewUserDTO, UserId]):
         self.user_service = user_service
         self.uow = uow
 
-    async def __call__(self, data: NewUserDTO) -> int:
-        user_id: UserId = UserId(data.user_id)
+    async def __call__(self, data: NewUserDTO) -> UserId:
+        user: User = self.user_service.create_user(data.user_id)
 
-        user: User = self.user_service.create_user(user_id)
-
-        user_exists: bool = await self.repository.is_user_exists(user_id)
+        user_exists: bool = await self.repository.is_user_exists(data.user_id)
 
         if not user_exists:
             await self.repository.create_user(user)
             await self.uow.commit()
 
-        return int(user.user_id)
+        return user.user_id

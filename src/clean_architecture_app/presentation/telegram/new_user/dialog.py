@@ -8,6 +8,7 @@ from aiogram_dialog.widgets.media import StaticMedia
 from aiogram_dialog.widgets.text import Format
 
 from application.create_user.dto import NewUserDTO
+from domain.entities.user_id import UserId
 
 from presentation.interactor_factory import InteractorFactory
 from presentation.telegram import states
@@ -20,9 +21,9 @@ async def user_start(
     message: Message, ioc: InteractorFactory, dialog_manager: DialogManager
 ):
     async with ioc.create_user() as create_user:
-        user_id: int = await create_user(
+        user_id: UserId = await create_user(
             NewUserDTO(
-                user_id=message.from_user.id,
+                user_id=UserId(message.from_user.id),
             )
         )
 
