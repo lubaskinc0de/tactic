@@ -7,11 +7,11 @@ from aiogram_dialog.widgets.media import StaticMedia
 
 from aiogram_dialog.widgets.text import Format
 
-from application.create_user.dto import NewUserDTO
-from domain.entities.user_id import UserId
+from clean_architecture_app.application.create_user.dto import NewUserDTO
+from clean_architecture_app.domain.entities.user_id import UserId
 
-from presentation.interactor_factory import InteractorFactory
-from presentation.telegram import states
+from clean_architecture_app.presentation.interactor_factory import InteractorFactory
+from clean_architecture_app.presentation.telegram import states
 
 DEFAULT_STATE = "Пинг!"
 DEFAULT_STATE_KEY = "example_state"
@@ -58,7 +58,7 @@ async def window_getter(dialog_manager: DialogManager, **_kwargs):
 new_user_dialog = Dialog(
     Window(
         StaticMedia(
-            path="/app/presentation/telegram/assets/start.gif",
+            path="/app/src/clean_architecture_app/presentation/telegram/assets/start.gif",
             type=ContentType.ANIMATION,
         ),
         Format("👋 Привет! Твой айди:\n> <b>{user_id}</b>"),

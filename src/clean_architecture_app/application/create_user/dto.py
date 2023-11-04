@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from domain.entities.user_id import UserId
+from clean_architecture_app.domain.entities.user_id import UserId
 
 
 @dataclass

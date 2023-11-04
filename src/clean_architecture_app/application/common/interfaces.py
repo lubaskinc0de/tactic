@@ -1,7 +1,7 @@
 from typing import Protocol
 
-from domain.entities.user import User
-from domain.entities.user_id import UserId
+from clean_architecture_app.domain.entities.user import User
+from clean_architecture_app.domain.entities.user_id import UserId
 
 
 class UnitOfWork(Protocol):

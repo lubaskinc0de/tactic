@@ -2,7 +2,7 @@ from abc import abstractmethod, ABC
 
 from typing import AsyncContextManager
 
-from application.create_user.use_case import CreateUser
+from clean_architecture_app.application.create_user.use_case import CreateUser
 
 
 class InteractorFactory(ABC):

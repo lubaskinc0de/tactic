@@ -1,13 +1,13 @@
-from application.common.use_case import UseCase
+from clean_architecture_app.application.common.use_case import UseCase
 
-from domain.entities.user import User
-from domain.entities.user_id import UserId
+from clean_architecture_app.domain.entities.user import User
+from clean_architecture_app.domain.entities.user_id import UserId
 
-from domain.services.user import UserService
+from clean_architecture_app.domain.services.user import UserService
 
 from .dto import NewUserDTO
 
-from application.common.interfaces import UnitOfWork, UserRepository
+from clean_architecture_app.application.common.interfaces import UnitOfWork, UserRepository
 
 
 class CreateUser(UseCase[NewUserDTO, UserId]):

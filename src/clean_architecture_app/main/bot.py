@@ -8,15 +8,16 @@ from aiogram.fsm.storage.redis import (
     DefaultKeyBuilder,
     RedisEventIsolation,
 )
+
 from aiogram_dialog import setup_dialogs
-
-from infrastructure.config_loader import load_config, DBConfig
-
-from presentation.telegram import register_handlers, register_dialogs
 
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 
-from ioc import IoC
+from clean_architecture_app.infrastructure.config_loader import load_config, DBConfig
+
+from clean_architecture_app.presentation.telegram import register_handlers, register_dialogs
+
+from clean_architecture_app.main.ioc import IoC
 
 
 async def get_async_sessionmaker(db_config: DBConfig) -> async_sessionmaker:

@@ -4,7 +4,7 @@ services:
     bot:
         build: ./
         restart: always
-        command: python bot.py
+        command: python src/clean_architecture_app/main/bot.py
         env_file:
             - .env
         volumes:

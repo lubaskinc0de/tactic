@@ -1,10 +1,10 @@
 from sqlalchemy import select, exists
 
-from infrastructure.db.repositories.abstract import AbstractSQLAlchemyRepository
-from infrastructure.db import models
+from clean_architecture_app.infrastructure.db.repositories.abstract import AbstractSQLAlchemyRepository
+from clean_architecture_app.infrastructure.db import models
 
-from domain.entities.user import User
-from domain.entities.user_id import UserId
+from clean_architecture_app.domain.entities.user import User
+from clean_architecture_app.domain.entities.user_id import UserId
 
 
 class UserRepositoryImpl(AbstractSQLAlchemyRepository):

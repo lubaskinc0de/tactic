@@ -1,0 +1,27 @@
+[build-system]
+requires = [
+    'setuptools==68.1.2',
+]
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'clean_architecture_app'
+version = '1.0.0'
+description = 'Implemenataion of clean architecture'
+readme = 'README.md'
+requires-python = '>=3.10.8'
+dependencies= [
+    'SQLAlchemy==2.0.20',
+    'aiogram_dialog==2.0.0rc2',
+    'redis==5.0.0',
+    'asyncpg==0.28.0',
+    'alembic==1.11.3',
+    'aiogram~=3.0.0rc2'
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[[project.authors]]
+name = 'lubaskinc0de'
+email = 'lubaskincorporation@gmail.com'
