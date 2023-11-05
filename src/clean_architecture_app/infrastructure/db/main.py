@@ -15,9 +15,9 @@ async def get_engine(settings: DBConfig) -> AsyncGenerator[AsyncEngine, None]:
         future=True,
     )
 
-    yield engine
-
     logging.info("Engine is created.")
+
+    yield engine
 
     await engine.dispose()
 

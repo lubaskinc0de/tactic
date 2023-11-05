@@ -60,7 +60,10 @@ async def main():
     finally:
         logging.info("Shutdown..")
 
-        await anext(engine_factory)
+        try:
+            await anext(engine_factory)
+        except StopAsyncIteration:
+            logging.info("Exited")
 
 
 if __name__ == "__main__":
