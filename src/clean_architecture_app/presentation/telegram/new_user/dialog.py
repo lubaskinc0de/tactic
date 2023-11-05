@@ -7,8 +7,8 @@ from aiogram_dialog.widgets.media import StaticMedia
 
 from aiogram_dialog.widgets.text import Format
 
-from clean_architecture_app.application.create_user.dto import NewUserDTO
-from clean_architecture_app.domain.entities.user_id import UserId
+from clean_architecture_app.application.create_user.use_case import NewUserDTO
+from clean_architecture_app.domain.value_objects.user import UserId
 
 from clean_architecture_app.presentation.interactor_factory import InteractorFactory
 from clean_architecture_app.presentation.telegram import states

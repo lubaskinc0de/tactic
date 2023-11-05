@@ -10,29 +10,14 @@ from aiogram.fsm.storage.redis import (
 )
 
 from aiogram_dialog import setup_dialogs
+from sqlalchemy.ext.asyncio import async_sessionmaker
 
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
-
-from clean_architecture_app.infrastructure.config_loader import load_config, DBConfig
+from clean_architecture_app.infrastructure.config_loader import load_config
+from clean_architecture_app.infrastructure.db.main import get_async_sessionmaker, get_engine
 
 from clean_architecture_app.presentation.telegram import register_handlers, register_dialogs
 
 from clean_architecture_app.main.ioc import IoC
-
-
-async def get_async_sessionmaker(db_config: DBConfig) -> async_sessionmaker:
-    """Get async sessionmaker instance"""
-
-    engine = create_async_engine(
-        db_config.get_connection_url(),
-        future=True,
-    )
-
-    session_factory = async_sessionmaker(
-        engine, expire_on_commit=False, class_=AsyncSession
-    )
-
-    return session_factory
 
 
 async def main():
@@ -45,7 +30,10 @@ async def main():
 
     config = load_config()
 
-    session_factory: async_sessionmaker = await get_async_sessionmaker(config.db)
+    engine_factory = get_engine(config.db)
+    engine = await anext(engine_factory)
+
+    session_factory: async_sessionmaker = await get_async_sessionmaker(engine)
 
     ioc = IoC(session_factory=session_factory)
 
@@ -67,7 +55,12 @@ async def main():
 
     setup_dialogs(dp)
 
-    await dp.start_polling(bot)
+    try:
+        await dp.start_polling(bot)
+    finally:
+        logging.info("Shutdown..")
+
+        await anext(engine_factory)
 
 
 if __name__ == "__main__":

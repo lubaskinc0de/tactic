@@ -2,7 +2,7 @@ from sqlalchemy.orm import declarative_base, Mapped
 
 from sqlalchemy import Column, BigInteger
 
-from clean_architecture_app.domain.entities.user_id import UserId
+from clean_architecture_app.domain.value_objects.user import UserId
 
 Base = declarative_base()
 

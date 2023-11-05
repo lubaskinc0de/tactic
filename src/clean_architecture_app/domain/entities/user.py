@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from .user_id import UserId
+from clean_architecture_app.domain.value_objects.user import UserId
 
 
 @dataclass

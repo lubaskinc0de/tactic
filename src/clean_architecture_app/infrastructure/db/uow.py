@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from clean_architecture_app.application.common.interfaces import UnitOfWork
+from clean_architecture_app.application.common.uow import UnitOfWork
 
 
 class SQLAlchemyUoW(UnitOfWork):
