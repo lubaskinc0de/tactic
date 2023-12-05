@@ -21,6 +21,6 @@ RUN addgroup --system app && adduser --system --group app
 COPY . .
 
 RUN chown -R app:app $HOME
-RUN pip install -e .
-
 USER app
+
+RUN pip install -e .

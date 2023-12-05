@@ -1,19 +1,26 @@
 version: '3.8'
 
 services:
-    bot:
-        build: ./
-        restart: always
-        command: python src/clean_architecture_app/main/bot.py
+    bot_redis:
+        container_name: redis
+        image: redis:7.0.4-alpine
+        restart: on-failure
+        ports:
+            - "6379:6378"
+        volumes:
+            - redis_data:/data
+
+    db:
+        container_name: db
+        image: postgres:14.5-alpine
+        restart: on-failure
         env_file:
             - .env
         volumes:
-            - ./src/clean_architecture_app/infrastructure/db/migrations/versions:/app/infrastructure/db/migrations/versions
-        depends_on:
-            - db
-            - bot_redis
+            - db_data:/var/lib/postgresql/data/
 
     migration:
+        container_name: migration
         build: ./
         restart: on-failure
         env_file:
@@ -22,21 +29,18 @@ services:
             - db
         command: [ "alembic", "upgrade", "head" ]
 
-    bot_redis:
-        image: redis:7.0.4-alpine
-        restart: always
-        ports:
-            - "6379:6378"
-        volumes:
-            - redis_data:/data
-
-    db:
-        image: postgres:14.5-alpine
-        restart: always
+    bot:
+        container_name: bot
+        build: ./
+        restart: on-failure
+        command: python src/tactic/presentation/bot.py
         env_file:
             - .env
         volumes:
-            - db_data:/var/lib/postgresql/data/
+            - ./src/tactic/infrastructure/db/migrations/versions:/app/infrastructure/db/migrations/versions
+        depends_on:
+            - migration
+            - bot_redis
 
 volumes:
     db_data:

@@ -5,9 +5,9 @@ requires = [
 build-backend = 'setuptools.build_meta'
 
 [project]
-name = 'clean_architecture_app'
+name = 'tactic'
 version = '1.0.0'
-description = 'Implemenataion of clean architecture'
+description = 'A tactic - implementation of clean architecture on Python contains some tactical patterns from DDD'
 readme = 'README.md'
 requires-python = '>=3.10.8'
 dependencies= [
