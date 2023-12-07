@@ -1,10 +1,10 @@
 from typing import Any
 
 from aiogram.enums import ContentType
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message
 
 from aiogram_dialog import Dialog, Window, DialogManager, StartMode
-from aiogram_dialog.widgets.kbd import Button
+from aiogram_dialog.widgets.kbd import Toggle
 from aiogram_dialog.widgets.media import StaticMedia
 
 from aiogram_dialog.widgets.text import Format
@@ -15,8 +15,7 @@ from tactic.domain.value_objects.user import UserId
 from tactic.presentation.interactor_factory import InteractorFactory
 from tactic.presentation.telegram import states
 
-DEFAULT_STATE = "Пинг!"
-DEFAULT_STATE_KEY = "example_state"
+OPTIONS_KEY = "options"
 
 
 async def user_start(
@@ -33,22 +32,9 @@ async def user_start(
         states.NewUser.user_id,
         mode=StartMode.RESET_STACK,
         data={
-            "user_id": user_data.user_id,
+            "user_id": user_data.user_id.to_raw(),
         },
     )
-
-
-async def ping(
-    _call: CallbackQuery, _widget: Button, dialog_manager: DialogManager
-) -> None:
-    current_state: str = (
-        dialog_manager.dialog_data.get(DEFAULT_STATE_KEY) or DEFAULT_STATE
-    )
-
-    if current_state == DEFAULT_STATE:
-        dialog_manager.dialog_data[DEFAULT_STATE_KEY] = "Понг!"
-    else:
-        dialog_manager.dialog_data[DEFAULT_STATE_KEY] = DEFAULT_STATE
 
 
 async def window_getter(
@@ -56,8 +42,7 @@ async def window_getter(
 ) -> dict[str, UserId | str | Any]:
     return {
         "user_id": dialog_manager.start_data.get("user_id"),
-        f"{DEFAULT_STATE_KEY}": dialog_manager.dialog_data.get(DEFAULT_STATE_KEY)
-        or DEFAULT_STATE,
+        OPTIONS_KEY: ["Пинг!", "Понг!"]
     }
 
 
@@ -68,7 +53,12 @@ new_user_dialog = Dialog(
             type=ContentType.ANIMATION,
         ),
         Format("👋 Привет! Твой айди:\n> <b>{user_id}</b>"),
-        Button(Format("{example_state}"), id="ping", on_click=ping),
+        Toggle(
+            text=Format("{item}"),
+            id="ping_pong",
+            items=OPTIONS_KEY,
+            item_id_getter=lambda item: item,
+        ),
         getter=window_getter,
         state=states.NewUser.user_id,
     ),

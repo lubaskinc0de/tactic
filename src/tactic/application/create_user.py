@@ -9,12 +9,12 @@ from tactic.domain.value_objects.user import UserId
 from tactic.domain.services.user import UserService
 
 
-@dataclass
+@dataclass(frozen=True)
 class UserInputDTO:
     user_id: UserId
 
 
-@dataclass
+@dataclass(frozen=True)
 class UserOutputDTO:
     user_id: UserId
 

@@ -25,7 +25,7 @@ class UserRepositoryImpl(UserRepository):
 
     async def create(self, user: User) -> User:
         db_user = models.User(
-            user_id=user.user_id,
+            user_id=user.user_id.to_raw(),
         )
 
         self.session.add(db_user)
@@ -33,7 +33,7 @@ class UserRepositoryImpl(UserRepository):
         return user
 
     async def exists(self, user_id: UserId) -> bool:
-        q = select(exists().where(models.User.user_id == user_id))
+        q = select(exists().where(models.User.user_id == user_id.to_raw()))
 
         res = await self.session.execute(q)
 

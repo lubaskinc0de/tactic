@@ -1,3 +1,8 @@
-from typing import NewType
+from dataclasses import dataclass
 
-UserId = NewType("UserId", int)
+from tactic.domain.common.value_objects.base import ValueObject
+
+
+@dataclass(frozen=True)
+class UserId(ValueObject[int]):
+    value: int

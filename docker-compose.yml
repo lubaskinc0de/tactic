@@ -1,34 +1,6 @@
 version: '3.8'
 
 services:
-    bot_redis:
-        container_name: redis
-        image: redis:7.0.4-alpine
-        restart: on-failure
-        ports:
-            - "6379:6378"
-        volumes:
-            - redis_data:/data
-
-    db:
-        container_name: db
-        image: postgres:14.5-alpine
-        restart: on-failure
-        env_file:
-            - .env
-        volumes:
-            - db_data:/var/lib/postgresql/data/
-
-    migration:
-        container_name: migration
-        build: ./
-        restart: on-failure
-        env_file:
-            - .env
-        depends_on:
-            - db
-        command: [ "alembic", "upgrade", "head" ]
-
     bot:
         container_name: bot
         build: ./
@@ -41,6 +13,41 @@ services:
         depends_on:
             - migration
             - bot_redis
+
+    migration:
+        container_name: migration
+        build: ./
+        restart: on-failure
+        env_file:
+            - .env
+        depends_on:
+            db:
+                condition: service_healthy
+        command: [ "alembic", "upgrade", "head" ]
+
+    db:
+        container_name: db
+        image: postgres:14.5-alpine
+        restart: on-failure
+        env_file:
+            - .env
+        volumes:
+            - db_data:/var/lib/postgresql/data/
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+            interval: 2s
+            timeout: 60s
+            retries: 10
+            start_period: 5s
+
+    bot_redis:
+        container_name: redis
+        image: redis:7.0.4-alpine
+        restart: on-failure
+        ports:
+            - "6379:6378"
+        volumes:
+            - redis_data:/data
 
 volumes:
     db_data:

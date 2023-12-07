@@ -12,7 +12,7 @@ readme = 'README.md'
 requires-python = '>=3.10.8'
 dependencies= [
     'SQLAlchemy==2.0.20',
-    'aiogram_dialog==2.0.0rc2',
+    'aiogram-dialog==2.1.0',
     'redis==5.0.0',
     'asyncpg==0.28.0',
     'alembic==1.11.3',
