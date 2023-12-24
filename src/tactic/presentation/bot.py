@@ -13,6 +13,7 @@ from aiogram_dialog import setup_dialogs
 
 from tactic.infrastructure.config_loader import load_config
 from tactic.infrastructure.db.main import get_async_sessionmaker, get_engine
+from tactic.infrastructure.db.mapper import start_mapper
 
 from tactic.presentation.telegram import register_handlers, register_dialogs
 
@@ -49,6 +50,8 @@ async def main() -> None:
     register_dialogs(dp)
 
     setup_dialogs(dp)
+
+    start_mapper()
 
     try:
         await dp.start_polling(bot)
